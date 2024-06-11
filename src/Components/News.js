@@ -19,7 +19,7 @@ const News = (props) => {
 
   const updateNews = async () => {
     props.setProgress(0);
-    let url = `https://newsapi.org/v2/top-headlines?country=${props.country}&category=${props.category}&apiKey=962f603a690c4815a41e19f530fe3656&page=${page}&pageSize=${props.pageSize}`;
+    let url = `https://gnews.io/api/v4/top-headlines?country=${props.country}&category=${props.category}&apikey=5c4b7b64b3fea091d3b29d8355fb1dce&page=${page}&pageSize=${props.pageSize}`;
     setLoading(true);
     let data = await fetch(url);
     props.setProgress(20);
@@ -27,7 +27,7 @@ const News = (props) => {
     props.setProgress(60);
     console.log(parsedData);
     setArticles(parsedData.articles);
-    setTotalResults(parsedData.totalResults);
+    setTotalResults(parsedData.totalArticles);
     setLoading(false);
 
     props.setProgress(100);
@@ -106,9 +106,9 @@ const News = (props) => {
   };
 
   const fetchMoreData = async () => {
-    let url = `https://newsapi.org/v2/top-headlines?country=${
+    let url = `https://gnews.io/api/v4/top-headlines?country=${
       props.country
-    }&category=${props.category}&apiKey=962f603a690c4815a41e19f530fe3656&page=${
+    }&category=${props.category}&apikey=5c4b7b64b3fea091d3b29d8355fb1dce&page=${
       page + 1
     }&pageSize=${props.pageSize}`;
     setPage(page + 1);
@@ -117,7 +117,7 @@ const News = (props) => {
     let parsedData = await data.json();
     console.log(parsedData);
     setArticles(articles.concat(parsedData.articles));
-    setTotalResults(parsedData.totalResults);
+    setTotalResults(parsedData.totalArticles);
   };
 
   // console.log("inside render");
@@ -145,9 +145,9 @@ const News = (props) => {
                   <NewsItem
                     title={element.title ? element.title : ""}
                     description={element.description ? element.description : ""}
-                    imageUrl={element.urlToImage}
+                    imageUrl={element.image}
                     newsUrl={element.url}
-                    author={element.author}
+                    author={element.source.name}
                     date={element.publishedAt}
                     source={element.source.name}
                   />
